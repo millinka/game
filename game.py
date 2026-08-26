@@ -16,7 +16,7 @@ pygame.display.set_caption("Platformer")
 
 # фоновий звук
 bg_sound = pygame.mixer.Sound("sounds/2.mp3")
-# bg_sound.play()
+bg_sound.play()
 
 
 # написи
@@ -174,8 +174,16 @@ while running:
             for element in bullets[:] :
                 screen.blit(bullet, element)
                 element.x += 10
+
                 if element.x > 1250:
                     bullets.remove(element)
+
+                if enemy2_list:
+                    for enemy in enemy2_list[:] :
+                        if element.colliderect(enemy):
+                            bullets.remove(element)
+                            enemy2_list.remove(enemy)
+
 
                 
         
@@ -253,6 +261,8 @@ while running:
             is_enemy1 = True
             enemy1_x = 3000
             enemy2_x = 1300
+            bullets.clear()
+            bullets_count = 5
 
 
 
