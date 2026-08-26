@@ -65,7 +65,11 @@ enemy2 = pygame.transform.scale(enemy2, (80,90))
 enemy2_list = []
 is_enemy2 = True
 
+# куля
 
+bullet = pygame.image.load("images/bullet.png").convert_alpha()
+bullets = []
+bullets_count = 5
 
 # початкові координати рухомих персонажів
 
@@ -150,7 +154,7 @@ while running:
         if anim_count == 3:
             anim_count = 0
 
-
+        # ворог-привид 2
         if enemy2_list:   # якщо список ворогів не порожній
             for element in enemy2_list[:] :
                 screen.blit(enemy2, element)
@@ -164,6 +168,16 @@ while running:
                     
                     enemy2_list.remove(element)
 
+        # кульки
+
+        if bullets:    
+            for element in bullets[:] :
+                screen.blit(bullet, element)
+                element.x += 10
+                if element.x > 1250:
+                    bullets.remove(element)
+
+                
         
 
 
@@ -176,6 +190,7 @@ while running:
             if player_rect.colliderect(enemy1_rect):
                 print("Упс")
                 is_enemy1 = False
+                gamePlay = False
 
 
         
@@ -261,3 +276,6 @@ while running:
             running = False
         if event.type == enemy2_timer:
             enemy2_list.append(enemy2.get_rect(topleft=(enemy2_x, enemy2_y)))
+        if event.type == pygame.KEYUP and event.key == pygame.K_q and gamePlay and bullets_count > 0:
+            bullets.append(bullet.get_rect(topleft = (player_x + 47, player_y + 19)))
+            bullets_count -= 1
